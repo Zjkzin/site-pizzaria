@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Cardápio | 777 das Pizzas</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+  background-color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background-color: #e74c3c;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+nav {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.15);
+  font-weight: 600;
+  transition: 0.3s;
+}
+nav a:hover {
+  background: rgba(255,255,255,0.3);
+}
+main {
+  max-width: 850px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  animation: aparecer 0.6s ease-in-out;
+}
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+h2 {
+  text-align: center;
+  color: #e74c3c;
+  margin-bottom: 25px;
+  font-size: 1.9em;
+}
+.cardapio-imagens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+.cardapio-imagens img {
+  width: 70%;
+  max-width: 480px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.cardapio-imagens img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.divisor {
+  width: 70%;
+  height: 4px;
+  background-color: #e74c3c;
+  margin: 45px auto 25px;
+  border-radius: 2px;
+  animation: expandir 1s ease-out;
+}
+@keyframes expandir {
+  from { width: 0; opacity: 0; }
+  to { width: 70%; opacity: 1; }
+}
+.cardapio-exclusivo {
+  text-align: center;
+  margin-top: 30px;
+}
+.cardapio-exclusivo h3 {
+  color: #b91717;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+.cardapio-exclusivo img {
+  width: 50%;
+  max-width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.cardapio-exclusivo img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+}
+@media (max-width: 600px) {
+  .cardapio-imagens img,
+  .cardapio-exclusivo img {
+    width: 90%;
+  }
+  main {
+    margin: 20px;
+    padding: 20px;
+  }
+  nav a {
+    display: block;
+    margin: 8px 0;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+<h1>🍕 777 das Pizzas</h1>
+<nav>
+<a href="index.html">Início</a>
+<a href="cardapio.html">Cardápio</a>
+<a href="pedidos.html">Pedidos</a>
+<a href="promocoes.html">Promoções</a>
+<a href="Sorte.html">Sorte</a>
+</nav>
+</header>
+<main>
+<h2>Cardápio</h2>
+<section class="cardapio-imagens">
+<img src="IMG_20251026_183305.jpg" alt="Cardápio de pizzas">
+<img src="IMG_20251102_224208.jpg" alt="Bebidas disponíveis">
+</section>
+<section class="cardapio-exclusivo">
+<div class="divisor"></div>
+<h3>Apenas comercializada no estabelecimento</h3>
+<img src="IMG_20251026_183141.jpg" alt="Itens exclusivos da casa">
+</section>
+</main>
+</body>
+</html>

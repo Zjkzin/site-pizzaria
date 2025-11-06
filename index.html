@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>777 das Pizzas</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  background: linear-gradient(180deg, #fff3e0 0%, #ffe0b2 50%, #ffcc80 100%);
+  color: #333;
+}
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1000px;
+  position: relative;
+}
+.pizza-circle {
+  position: relative;
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #fcd56b 0%, #f7b731 60%, #d68a2b 100%);
+  border: 18px solid #d35400;
+  box-shadow: 0 0 50px rgba(211,84,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.pizza-logo {
+  position: absolute;
+  width: 420px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.menu-btn {
+  position: absolute;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 16px 32px;
+  border-radius: 40px;
+  transition: 0.3s ease;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.menu-btn:hover {
+  background-color: #ff6f61;
+  transform: scale(1.08);
+}
+.menu-btn.top { top: 6%; left: 50%; transform: translateX(-50%); }
+.menu-btn.bottom { bottom: 6%; left: 50%; transform: translateX(-50%); }
+.menu-btn.left { left: 6%; top: 50%; transform: translateY(-50%); }
+.menu-btn.right { right: 6%; top: 50%; transform: translateY(-50%); }
+.pepperoni {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+}
+.slice-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 460px;
+  background-color: rgba(0,0,0,0.3);
+  transform-origin: top center;
+}
+main {
+  margin: 60px auto;
+  max-width: 900px;
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+main h2 {
+  color: #d35400;
+  font-size: 1.9em;
+  margin-bottom: 10px;
+}
+main p {
+  color: #555;
+  font-size: 1.1em;
+  margin-bottom: 40px;
+}
+.pizza-images {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+.pizza-images img {
+  width: 320px;
+  border-radius: 15px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
+.pizza-images img:first-child { transform: rotate(-10deg); }
+.pizza-images img:last-child { transform: rotate(10deg); }
+.pizza-images img:hover {
+  transform: rotate(0deg) scale(1.08);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+}
+@media (max-width:1024px) {
+  header { height:800px; }
+  .pizza-circle { width:650px; height:650px; border-width:14px; }
+  .pizza-logo { width:300px; }
+  .menu-btn { padding:14px 28px; font-size:1em; }
+  .slice-line { height:320px; }
+  .pizza-images img { width:260px; }
+}
+@media (max-width:768px) {
+  header { height:650px; }
+  .pizza-circle { width:380px; height:380px; border-width:10px; }
+  .pizza-logo { width:200px; }
+  .menu-btn { padding:10px 20px; font-size:0.9em; }
+  .slice-line { height:180px; }
+  .pizza-images img { width:180px; }
+  main { margin:40px 20px; padding:25px; }
+}
+</style>
+</head>
+<body>
+<header>
+<div class="pizza-circle" id="pizza-circle">
+<img src="1760923423373.png" alt="Logo 777 das Pizzas" class="pizza-logo">
+<a href="cardapio.html" class="menu-btn top">Cardápio</a>
+<a href="pedidos.html" class="menu-btn left">Pedidos</a>
+<a href="promocoes.html" class="menu-btn right">Promoções</a>
+<a href="Sorte.html" class="menu-btn bottom">Sorte</a>
+</div>
+</header>
+<main>
+<h2>Bem-vindo à 777 das Pizzas!</h2>
+<p>A melhor pizzaria da cidade. Confira nosso cardápio e faça seu pedido.</p>
+<div class="pizza-images">
+<img src="pizza-mussarela.jpg" alt="Pizza Mussarela">
+<img src="Show-CIrcus-Buffet-Pizza-Pocket-29-768x597.jpg" alt="Pizza Pepperoni">
+</div>
+</main>
+<script>
+const pizza=document.getElementById('pizza-circle');
+const totalPepperoni=30;
+const pizzaRadius=pizza.offsetWidth/2;
+for(let i=0;i<totalPepperoni;i++){
+  const pep=document.createElement('span');
+  pep.classList.add('pepperoni');
+  const angle=Math.random()*2*Math.PI;
+  const radius=Math.random()*(pizzaRadius-40);
+  pep.style.left=pizzaRadius+radius*Math.cos(angle)-24+'px';
+  pep.style.top=pizzaRadius+radius*Math.sin(angle)-24+'px';
+  pizza.appendChild(pep);
+}
+for(let i=0;i<8;i++){
+  const line=document.createElement('div');
+  line.classList.add('slice-line');
+  line.style.transform=`rotate(${i*45}deg)`;
+  pizza.appendChild(line);
+}
+</script>
+</body>
+</html>

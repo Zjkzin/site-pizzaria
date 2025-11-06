@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pedidos | 777 das Pizzas</title>
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#fff8ec;
+    color:#333;
+}
+header {
+    background:#e74c3c;
+    padding:20px 0;
+    color:#fff;
+    text-align:center;
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+header h1 {
+    margin:0;
+    font-size:2em;
+}
+nav {
+    margin-top:10px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+nav a {
+    color:#fff;
+    text-decoration:none;
+    padding:8px 16px;
+    border-radius:6px;
+    background:rgba(255,255,255,0.15);
+    font-weight:600;
+    transition:0.3s;
+}
+nav a:hover {
+    background:rgba(255,255,255,0.3);
+}
+main {
+    max-width:700px;
+    margin:40px auto;
+    background:#fff;
+    border-radius:10px;
+    padding:30px 25px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.07);
+}
+h2 {
+    text-align:center;
+    color:#d35400;
+    margin-bottom:10px;
+}
+p {
+    text-align:center;
+    color:#666;
+    margin-bottom:25px;
+}
+section h3 {
+    color:#d35400;
+    font-size:1.2em;
+    margin-top:30px;
+    margin-bottom:8px;
+}
+.pizza-item, .bebida-item {
+    background:#fff4e0;
+    padding:15px;
+    margin-top:10px;
+    border-radius:8px;
+    box-shadow:0 1px 6px rgba(0,0,0,0.05);
+}
+label {
+    display:block;
+    margin-top:8px;
+    font-weight:600;
+    color:#444;
+}
+select, input, textarea {
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:1em;
+    box-sizing:border-box;
+    font-family:inherit;
+}
+textarea {
+    resize:vertical;
+}
+button {
+    margin-top:15px;
+    padding:12px 20px;
+    background:#e74c3c;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover {
+    background:#ff6f61;
+}
+#total {
+    text-align:center;
+    font-size:1.2em;
+    font-weight:bold;
+    margin-top:20px;
+    color:#d35400;
+}
+#overlay {
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(255,245,230,0.9);
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+#overlay .box {
+    background:#e74c3c;
+    padding:35px 45px;
+    border-radius:12px;
+    color:#fff;
+    font-size:1.5em;
+    font-weight:600;
+    box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+@media (max-width:768px) {
+    main {margin:25px 15px;padding:25px 20px;}
+    nav a {padding:6px 10px;font-size:0.9em;}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>🍕 777 das Pizzas</h1>
+<nav>
+<a href="index.html">Início</a>
+<a href="cardapio.html">Cardápio</a>
+<a href="pedidos.html">Pedidos</a>
+<a href="promocoes.html">Promoções</a>
+<a href="Sorte.html">Sorte</a>
+</nav>
+</header>
+
+<main>
+<h2>Monte seu Pedido</h2>
+<p id="promoMsg">💰 Taxa de entrega: R$ 5,00</p>
+
+<form id="pedidoForm">
+<section>
+<h3>Pizzas</h3>
+<div id="pizzasContainer">
+<div class="pizza-item">
+<label>Tamanho:</label>
+<select name="tamanho">
+<option value="">Selecione...</option>
+<option value="48">Pequena - R$48,00</option>
+<option value="58">Média - R$58,00</option>
+<option value="68">Grande - R$68,00</option>
+<option value="78">Família - R$78,00</option>
+</select>
+<div class="sabores-container"></div>
+<label>Borda:</label>
+<select name="borda">
+<option value="">Sem borda</option>
+<option>Catupiry</option>
+<option>Cheddar</option>
+<option>Mussarela</option>
+<option>Chocolate branco</option>
+<option>Chocolate preto</option>
+<option>Doce de leite</option>
+<option>Nutella</option>
+</select>
+<label>Observações:</label>
+<textarea name="obs" rows="2" placeholder="Sem cebola, extra queijo..."></textarea>
+</div>
+</div>
+<button type="button" id="addPizzaBtn">+ Pizza</button>
+</section>
+
+<section>
+<h3>Bebidas</h3>
+<div id="bebidasContainer">
+<div class="bebida-item">
+<label>Bebida:</label>
+<select name="bebida">
+<option value="">Selecione...</option>
+<option value="6">Coca Lata - R$6,00</option>
+<option value="8">Coca 600ml - R$8,00</option>
+<option value="12">Coca 2L - R$12,00</option>
+<option value="5">Guaraná Lata - R$5,00</option>
+<option value="7">Guaraná 600ml - R$7,00</option>
+<option value="11">Guaraná 2L - R$11,00</option>
+<option value="3">Água sem gás - R$3,00</option>
+<option value="3">Água com gás - R$3,00</option>
+</select>
+<label>Quantidade:</label>
+<input type="number" name="qtd" min="1" value="1">
+</div>
+</div>
+<button type="button" id="addBebidaBtn">+ Bebida</button>
+</section>
+
+<section>
+<h3>Entrega</h3>
+<label>Nome:</label>
+<input type="text" id="nome" required>
+<label>Telefone:</label>
+<input type="tel" id="telefone" placeholder="(xx) xxxxx-xxxx" required>
+<label>Rua:</label>
+<input type="text" id="rua" required>
+<label>Bairro:</label>
+<input type="text" id="bairro" required>
+<label>Número:</label>
+<input type="text" id="numero" required>
+<label>Complemento:</label>
+<input type="text" id="complemento">
+<label>Pagamento:</label>
+<select id="pagamento" required>
+<option value="">Selecione...</option>
+<option>Dinheiro</option>
+<option>Pix</option>
+<option>Cartão de crédito</option>
+<option>Cartão de débito</option>
+</select>
+</section>
+
+<button type="submit">Finalizar Pedido</button>
+</form>
+
+<p id="total">💰 Total atual: R$5,00</p>
+
+<div id="overlay">
+<div class="box">✅ Pedido finalizado!</div>
+</div>
+</main>
+
+<script>
+let descontoRoleta=0;
+const params=new URLSearchParams(window.location.search);
+const saborRoleta=params.get("sabor");
+const tamanhoRoleta=params.get("tamanho");
+descontoRoleta=Number(params.get("promocao"));
+const bloqueado=params.get("bloqueado")==="true";
+
+function atualizarTotal(){
+let total=5;
+let pizzas=document.querySelectorAll(".pizza-item");
+let bebidas=document.querySelectorAll(".bebida-item");
+let precoPizzas=0,precoBebidas=0,precoBordas=0;
+
+pizzas.forEach(p=>{
+let preco=Number(p.querySelector('select[name="tamanho"]').value)||0;
+if(descontoRoleta) preco*=(1-descontoRoleta/100);
+const borda=p.querySelector('select[name="borda"]').value;
+if(borda) precoBordas+=30;
+precoPizzas+=preco;
+});
+
+bebidas.forEach(b=>{
+const preco=Number(b.querySelector('select[name="bebida"]').value)||0;
+const qtd=Number(b.querySelector('input[name="qtd"]').value)||1;
+precoBebidas+=preco*qtd;
+});
+pizzas.forEach(p=>{
+const tamanho=p.querySelector('select[name="tamanho"]').value;
+bebidas.forEach(b=>{
+const bebida=b.querySelector('select[name="bebida"]').value;
+if(tamanho==="58" && bebida==="6"){precoPizzas-=58;precoBebidas-=6;total+=61;}
+});
+});
+
+total+=precoPizzas+precoBordas+precoBebidas;
+document.getElementById("total").textContent=`💰 Total atual: R$${total.toFixed(2)}`;
+}
+
+function atualizarSabores(div){
+const tamanho=div.querySelector('select[name="tamanho"]').value;
+const box=div.querySelector(".sabores-container");
+box.innerHTML="";
+let qtd=tamanho==="48"||tamanho==="58"?2:tamanho==="68"?3:tamanho==="78"?4:1;
+const lista=`<option value="">Nenhum</option><option>Marguerita</option><option>Calabresa</option><option>Portuguesa</option><option>Bacon Crocante</option><option>4 Queijos</option><option>Costela com Cheddar</option>`;
+for(let i=1;i<=qtd;i++){
+const lbl=document.createElement("label");
+lbl.textContent=`Sabor ${i}:`;
+const sel=document.createElement("select");
+sel.name=`sabor${i}`;
+sel.innerHTML=lista;
+box.append(lbl,sel);
+}
+}
+
+document.getElementById("pizzasContainer").addEventListener("change",e=>{
+if(e.target.name==="tamanho"||e.target.name==="borda") atualizarSabores(e.target.closest(".pizza-item"));
+atualizarTotal();
+});
+document.getElementById("bebidasContainer").addEventListener("change",atualizarTotal);
+document.getElementById("addPizzaBtn").addEventListener("click",()=>{
+const nova=document.createElement("div");
+nova.classList.add("pizza-item");
+nova.innerHTML=document.querySelector(".pizza-item").innerHTML;
+document.getElementById("pizzasContainer").appendChild(nova);
+atualizarTotal();
+});
+document.getElementById("addBebidaBtn").addEventListener("click",()=>{
+const nova=document.createElement("div");
+nova.classList.add("bebida-item");
+nova.innerHTML=document.querySelector(".bebida-item").innerHTML;
+document.getElementById("bebidasContainer").appendChild(nova);
+atualizarTotal();
+});
+document.getElementById("pedidoForm").addEventListener("submit",e=>{
+e.preventDefault();
+document.getElementById("overlay").style.display="flex";
+setTimeout(()=>{
+document.getElementById("overlay").style.display="none";
+document.getElementById("pedidoForm").reset();
+atualizarTotal();
+},3000);
+});
+
+if(bloqueado && saborRoleta){
+const pizzaItem=document.querySelector(".pizza-item");
+const tamanhoSelect=pizzaItem.querySelector('select[name="tamanho"]');
+tamanhoSelect.value=tamanhoRoleta==="grande"?"68":tamanhoRoleta;
+tamanhoSelect.disabled=true;
+const saboresContainer=pizzaItem.querySelector(".sabores-container");
+saboresContainer.innerHTML=`<label>Sabor:</label><select name="sabor1" disabled><option selected>${saborRoleta}</option></select>`;
+document.getElementById("addPizzaBtn")?.remove();
+}
+
+window.addEventListener("load",atualizarTotal);
+</script>
+</body>
+</html>

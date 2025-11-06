@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Sorte | 777 das Pizzas</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+margin:0;
+font-family:Arial,sans-serif;
+background-color:#ffffff;
+text-align:center;
+}
+header {
+background-color:#e74c3c;
+padding:20px;
+color:#fff;
+}
+nav {
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+nav a {
+color:white;
+text-decoration:none;
+background-color:#e74c3c;
+padding:8px 12px;
+border-radius:5px;
+transition:background 0.3s;
+}
+nav a:hover {background-color:#e74c3c;}
+main {
+max-width:700px;
+margin:40px auto;
+background-color:#fff5e1;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+.roleta-container {
+position:relative;
+width:300px;
+height:300px;
+margin:0 auto 20px auto;
+border-radius:50%;
+overflow:hidden;
+border:5px solid #bf360c;
+background-color:#fff8e1;
+}
+.ponteiro {
+position:absolute;
+top:-15px;
+left:50%;
+transform:translateX(-50%);
+width:0;
+height:0;
+border-left:15px solid transparent;
+border-right:15px solid transparent;
+border-bottom:30px solid #000;
+z-index:10;
+}
+#spinButton, #resetButton {
+background-color:#f57c00;
+color:white;
+padding:12px 20px;
+font-size:1.1em;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:background 0.3s;
+margin:5px;
+}
+#spinButton:hover,#resetButton:hover {background-color:#ef6c00;}
+#resultado {
+margin-top:15px;
+font-size:1.2em;
+font-weight:bold;
+color:#bf360c;
+}
+#fazerPedido {
+display:block;
+margin:20px auto;
+padding:15px 30px;
+background-color:#f57c00;
+color:#fff;
+font-size:1.1em;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+#fazerPedido:disabled {background-color:#ccc; cursor:not-allowed;}
+#mensagem-limite {
+color:red;
+margin-top:10px;
+font-weight:bold;
+}
+#desconto {
+font-size:1.2em;
+color:#d84315;
+font-weight:bold;
+margin-bottom:15px;
+}
+</style>
+</head>
+<body>
+<header>
+<h1>🍕 777 das Pizzas</h1>
+<nav>
+<a href="index.html">Início</a>
+<a href="cardapio.html">Cardápio</a>
+<a href="pedidos.html">Pedidos</a>
+<a href="promocoes.html">Promoções</a>
+<a href="Sorte.html">Sorte</a>
+</nav>
+</header>
+
+<main>
+<section class="roleta">
+<h2>🎲 Gire a Roleta e Descubra um Sabor!</h2>
+<p id="desconto">🍕 Tamanho grande com 10% de desconto!</p>
+<div class="roleta-container">
+<canvas id="wheelCanvas" width="300" height="300"></canvas>
+<div class="ponteiro"></div>
+</div>
+<button id="spinButton">Girar 🎡</button>
+<button id="resetButton">🔄 Resetar Roleta</button>
+<p id="resultado"></p>
+<button id="fazerPedido" disabled>Fazer Pedido</button>
+<p id="mensagem-limite"></p>
+</section>
+</main>
+
+<script>
+const canvas=document.getElementById("wheelCanvas");
+const ctx=canvas.getContext("2d");
+const spinButton=document.getElementById("spinButton");
+const resetButton=document.getElementById("resetButton");
+const resultado=document.getElementById("resultado");
+const fazerPedido=document.getElementById("fazerPedido");
+const mensagemLimite=document.getElementById("mensagem-limite");
+
+const sabores=["Marguerita","Calabresa","Portuguesa","Bacon Crocante","Bacon","4 Queijos","Bife Ancho","Costela com Cheddar"];
+const colors=["#ff8a80","#ffab91","#ffd54f","#ffb74d","#ffcc80","#ff8a65","#a1887f","#90caf9"];
+const radius=canvas.width/2;
+const sliceAngle=2*Math.PI/sabores.length;
+
+function drawWheel(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.save();
+ctx.translate(radius,radius);
+for(let i=0;i<sabores.length;i++){
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.arc(0,0,radius,i*sliceAngle,(i+1)*sliceAngle);
+ctx.fillStyle=colors[i];
+ctx.fill();
+ctx.strokeStyle="#000";
+ctx.lineWidth=2;
+ctx.stroke();
+ctx.save();
+ctx.rotate(i*sliceAngle+sliceAngle/2);
+ctx.textAlign="right";
+ctx.fillStyle="#000";
+ctx.font="bold 14px Arial";
+ctx.fillText(sabores[i],radius-10,5);
+ctx.restore();
+}
+ctx.restore();
+}
+drawWheel();
+
+let rotation=0;
+let saborSorteado=null;
+let interval=null;
+
+function checkSpinLimit(){
+const lastSpin=localStorage.getItem("lastSpin");
+if(lastSpin){
+const lastDate=new Date(lastSpin);
+const now=new Date();
+const diff=now-lastDate;
+const weekMs=7*24*60*60*1000;
+if(diff<weekMs){
+spinButton.disabled=true;
+function updateCountdown(){
+const now2=new Date();
+const diff2=now2-lastDate;
+if(diff2>=weekMs){
+spinButton.disabled=false;
+mensagemLimite.textContent="";
+clearInterval(interval);
+}else{
+const remaining=weekMs-diff2;
+const days=Math.ceil(remaining/(1000*60*60*24));
+mensagemLimite.textContent=`Você já girou esta semana! Dias restantes: ${days}d`;
+}
+}
+updateCountdown();
+interval=setInterval(updateCountdown,1000);
+}
+}
+}
+checkSpinLimit();
+
+spinButton.addEventListener("click",()=>{
+spinButton.disabled=true;
+fazerPedido.disabled=true;
+resultado.textContent="";
+const randDeg=Math.floor(Math.random()*360)+1440;
+const start=rotation;
+const end=rotation+randDeg;
+const duration=4000;
+const startTime=performance.now();
+function animate(time){
+const elapsed=time-startTime;
+const progress=Math.min(elapsed/duration,1);
+const ease=1-Math.pow(1-progress,3);
+const degree=start+(end-start)*ease;
+rotation=degree%360;
+canvas.style.transform=`rotate(${rotation}deg)`;
+if(progress<1){
+requestAnimationFrame(animate);
+}else{
+const normalizedRotation=(rotation+90)%360;
+const index=Math.floor(sabores.length-(normalizedRotation/360)*sabores.length)%sabores.length;
+saborSorteado=sabores[index];
+resultado.textContent=`Sabor sorteado: ${saborSorteado} 🍕`;
+fazerPedido.disabled=false;
+localStorage.setItem("lastSpin",new Date().toISOString());
+checkSpinLimit();
+}
+}
+requestAnimationFrame(animate);
+});
+
+fazerPedido.addEventListener("click",()=>{
+if(!saborSorteado) return;
+const url=new URL("pedidos.html",window.location.href);
+url.searchParams.set("sabor",saborSorteado);
+url.searchParams.set("tamanho","grande");
+url.searchParams.set("promocao","10");
+url.searchParams.set("bloqueado","true");
+window.location.href=url.toString();
+});
+
+resetButton.addEventListener("click",()=>{
+localStorage.removeItem("lastSpin");
+spinButton.disabled=false;
+mensagemLimite.textContent="";
+resultado.textContent="";
+fazerPedido.disabled=true;
+if(interval) clearInterval(interval);
+interval=null;
+alert("🔄 Roleta resetada! Agora você pode girar novamente.");
+});
+</script>
+</body>
+</html>
